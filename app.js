@@ -1,31 +1,24 @@
-const express=require('express')
-const mongoose=require('mongoose');
+const express = require('express');
+const mongoose = require('mongoose');
 
-const app=express();
+// Set strictQuery to false to prepare for the change
+mongoose.set('strictQuery', false);
 
-mongoose.connect('mongodb://127.0.0.1:27017/todolist',).then(()=>{
-    console.log('data base connected');
-})
+const app = express();
 
+mongoose.connect('mongodb://localhost:27017/todolist').then(() => {
+    console.log('database connected');
+});
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-app.use(express.urlencoded({extended:true}));
-app.use(express.static('public'))
-
-//routers 
-
+// routers
 app.use(require('./router/index'));
-app.use(require('./router/Todo'))
+app.use(require('./router/Todo'));
 
-app.set('view engine','ejs')
+app.set('view engine', 'ejs');
 
-
-
-
-
-
-
-
-app.listen(8080,()=>{
-    console.log('server running at port: 8080');
-}) 
+app.listen(5500, () => {
+    console.log('server running at port: 5500');
+});
